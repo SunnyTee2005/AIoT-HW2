@@ -9,9 +9,20 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def fetch_and_store_data():
     load_dotenv()
+    
+    # Try to get API key from local .env first
     api_key = os.getenv("CWA_API_KEY")
+    
+    # If not found locally, try to get it from Streamlit Cloud Secrets
     if not api_key:
-        print("Error: Please set CWA_API_KEY in your .env file.")
+        try:
+            import streamlit as st
+            api_key = st.secrets.get("CWA_API_KEY")
+        except Exception:
+            pass
+            
+    if not api_key:
+        print("Error: Please set CWA_API_KEY in your .env file or Streamlit Secrets.")
         return False
 
     url = f"https://opendata.cwa.gov.tw/fileapi/v1/opendataapi/F-A0010-001?Authorization={api_key}&downloadType=WEB&format=JSON"

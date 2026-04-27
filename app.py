@@ -3,6 +3,7 @@ import sqlite3
 import pandas as pd
 import folium
 from streamlit_folium import st_folium
+from fetch_data import fetch_and_store_data
 
 st.set_page_config(page_title="Temperature Forecast Web App", layout="wide", initial_sidebar_state="collapsed")
 
@@ -31,6 +32,19 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.title("⛅ Temperature Forecast Web App")
+
+# --- Sidebar Controls ---
+st.sidebar.title("⚙️ Data Controls")
+st.sidebar.info("Click below to fetch the latest 7-day forecast from the CWA Open Data API.")
+if st.sidebar.button("🔄 Refresh Weather Data", use_container_width=True):
+    with st.spinner("Fetching latest data from CWA..."):
+        success = fetch_and_store_data()
+        if success:
+            st.sidebar.success("Database successfully updated!")
+            st.cache_data.clear() # Clear cache to force reload
+            st.rerun() # Refresh the webpage
+        else:
+            st.sidebar.error("Failed to update. Please check your API Key or Network.")
 
 # Function to load data from SQLite DB
 @st.cache_data
