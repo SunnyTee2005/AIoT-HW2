@@ -1,5 +1,7 @@
 # ⛅ CWA Temperature Forecast Web App (HW2)
 
+🌟 **Live Demo**: [https://aiot-hw2-ndh3g3gbp7ye2uo262z32y.streamlit.app](https://aiot-hw2-ndh3g3gbp7ye2uo262z32y.streamlit.app)
+
 This project fetches 7-day weather forecast data for Taiwan's main regions using the CWA Open Data API (F-A0010-001 endpoint), processes it into a SQLite database, and creates an interactive dashboard using Streamlit and Folium.
 
 ## Prerequisites
